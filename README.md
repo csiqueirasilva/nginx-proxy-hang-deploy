@@ -68,9 +68,13 @@ Run the deployment.sh script to see the deployment process in action.
 The script performs the following steps: 
 
 a. Hold Requests: The proxy is reconfigured to forward incoming traffic to the hold container. 
+
 b. Deployment Actions: The Apache website is updated (for example, a timestamp is updated in the HTML file) and the Apache container is restarted concurrently. 
+
 c. Wait for Apache Health: The script waits until Apache is fully ready to serve requests (to prevent a 502 error). 
+
 d. Release Held Requests: A "release.flag" file is created in the shared volume. The hold container's Lua script polls for this flag and, when detected, issues an HTTP 302 redirect to Apache. 
+
 e. Reconfigure Proxy: Finally, the proxy configuration is updated so that new requests are directed directly to Apache. 
 
 Command: ```./deployment.sh```
