@@ -50,15 +50,16 @@ sleep 2  # Wait a moment to ensure the proxy applies the new configuration
 # Step 2: Perform multiple deployment actions simultaneously
 (
   echo "Updating timestamp..."
-  echo "<html><body><h1>Deployment Test</h1><p>Updated Timestamp: $(date)</p></body></html>" > apache/html/index.html
+  echo "#!/usr/bin/env cgilua.cgi" > apache/html/index.lp
+  echo "<html><body><h1>Deployment Test</h1><p>Updated Timestamp: $(date)</p></body></html>" >> apache/html/index.lp
 ) &
 
 (
   echo "Restarting Apache..."
-  docker restart $(docker ps -q --filter "name=apache")
+  docker compose up -d --force-recreate apache
 ) &
 
-# simulate a 10 second delay on deployment task
+# simulate a 5 second delay on deployment task
 (
     sleep 5
 ) &

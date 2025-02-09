@@ -22,7 +22,15 @@ The requests that were previously hanging will complete to the new container.
 - clone: ```git clone https://github.com/csiqueirasilva/nginx-proxy-hang-deploy```
 - start containers in cloned repository: ```docker-compose up -d```
 - start nginx proxy manager configuration: ```./proxy-startup.sh```
-- run sample deployment: ```./deployment.sh```
+
+There are two cgilua scripts being used: **form.lp** and **index.lp**. You can check out GET/POST form submissions with form.lp while deployment is happening. The script index.lp has a timestamp being written on it by the deployment simulation.
+
+Scripts can be accessed via these URLs after running the steps above:
+
+- http://localhost:80
+- http://localhost:80/form.lp
+
+- running a sample deployment is done with the command: ```./deployment.sh```
 
 ##  Overview
 The setup consists of three primary services defined in a Docker Compose file:
@@ -103,7 +111,7 @@ The hold container then redirects clients to Apache, ensuring a seamless user ex
 
 ### Client-Side Redirect:
 
-The Lua code in the hold container uses ngx.redirect() to send a 302 response.
+The Lua code in the hold container uses ngx.redirect() to send a 307 response to keep data intact.
 This ensures that browsers re-request the updated resource from Apache.
 
 ## Troubleshooting
@@ -114,9 +122,13 @@ This ensures that browsers re-request the updated resource from Apache.
 
 - Logging: Check container logs for errors or debugging messages: docker logs <container_name>
 
+- ```jq: parse error: Invalid numeric literal at line 1, column 7``` can happen if running **proxy-startup.sh** too quickly. Give some time for nginx-proxy-manager to start.
+
 ## Takeaway
 
 Although this sample shows how the process can be done, ideally it should be created using a mature pipeline environement like Azure Devops.
+
+This sample does not provide a mechanism when errors happening during the process. There are several ways to implement this, but overall it's imperative to not let the proxy manager keep the rule to hold requests. On an actual pipeline, a way to do this would be updating the rule on the proxy container to server the application regardless of the outcome - while notifying the team about the error.
 
 ## License
 

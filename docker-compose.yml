@@ -11,10 +11,10 @@ services:
   
   apache:
     container_name: apache
-    image: httpd
+    build: ./apache
     restart: unless-stopped
     volumes:
-      - ./apache/html:/usr/local/apache2/htdocs
+      - ./apache/html:/var/www/html
     ports:
       - "8080:80"
 
