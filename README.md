@@ -124,7 +124,7 @@ This project is licensed under the MIT License. Feel free to use and modify it a
 
 ## Acknowledgements
 
-[Nginx Proxy Manager](https://nginxproxymanager.com/)
-[OpenResty](https://openresty.org/)
-[Docker](https://www.docker.com/)
-[Apache HTTP Server](https://httpd.apache.org/)
+- [Nginx Proxy Manager](https://nginxproxymanager.com/)
+- [OpenResty](https://openresty.org/)
+- [Docker](https://www.docker.com/)
+- [Apache HTTP Server](https://httpd.apache.org/)
